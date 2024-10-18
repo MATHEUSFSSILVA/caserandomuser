@@ -18,7 +18,7 @@ namespace caserandomuser.Models
         public string Country { get; set; }
 
         [JsonPropertyName("postcode")]
-        public int Postcode { get; set; }
+        public string Postcode { get; set; }
 
         [JsonPropertyName("coordinates")]
         public CoordinatesResponse Coordinates { get; set; }

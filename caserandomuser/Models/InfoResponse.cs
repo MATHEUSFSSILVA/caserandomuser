@@ -9,10 +9,10 @@ namespace caserandomuser.Models
         public string Seed { get; set; }
 
         [JsonPropertyName("results")]
-        public int Results { get; set; }
+        public string Results { get; set; }
 
         [JsonPropertyName("page")]
-        public int Page { get; set; }
+        public string Page { get; set; }
 
         [JsonPropertyName("version")]
         public string Version { get; set; }
