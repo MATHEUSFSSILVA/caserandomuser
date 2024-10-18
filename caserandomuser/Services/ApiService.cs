@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using caserandomuser.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Newtonsoft.Json;
 
+using caserandomuser.Models;
+using Newtonsoft.Json;
 
 namespace caserandomuser.Services
 {
@@ -21,7 +14,7 @@ namespace caserandomuser.Services
         }
 
 
-        public async Task<ApiResponse> GerarNovoUsuario(int? id)
+        public async Task<ApiResponse> ObterRespostaApiAsync(string id)
         {
             string url = $"https://randomuser.me/api/?results={id}";
 
