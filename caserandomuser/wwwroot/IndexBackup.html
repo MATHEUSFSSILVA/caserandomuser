@@ -336,7 +336,7 @@
                 });
                 
                 if (response.ok) {
-                    const jsonResponse = await response.text();
+                    const jsonResponse = await response.json();
                     console.log(jsonResponse);
                     alert('Usuário atualizado com sucesso!'); // Alerta de sucesso
                 } else {
@@ -344,7 +344,7 @@
                     console.error("Erro:", errorText);
                     alert(`Erro: ${errorText}`); // Alerta de erro
                 }
-
+                
 
                     $('#modalEditarUsuario').modal('hide'); // Fecha a modal
                 } catch (error) {

@@ -14,9 +14,9 @@ namespace caserandomuser.Services
         }
 
 
-        public async Task<ApiResponse> ObterRespostaApiAsync(int id)
+        public async Task<ApiResponse> ObterRespostaApiAsync()
         {
-            string url = $"https://randomuser.me/api/?results={id}";
+            string url = $"https://randomuser.me/api/?results=1";
 
             try
             {

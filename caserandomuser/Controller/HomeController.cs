@@ -7,6 +7,7 @@ using caserandomuser.Models;
 using caserandomuser.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Npgsql;
 
 namespace caserandomuser.Controller
@@ -43,33 +44,14 @@ namespace caserandomuser.Controller
                 .Include(c => c.Picture)
                 .ToListAsync();
 
-            Console.WriteLine("Usuários Cadastrados:");
-            foreach (var usuario in usuarios)
-            {
-                Console.WriteLine($"ID: {usuario.IdInt}, Nome: {usuario.Name.First} {usuario.Name.Last}, Localização: {usuario.Location.City}");
-            }
-
             return usuarios;
         }
 
 
-        [HttpGet("gerarnovousuario/{id}")]
-        public async Task<ActionResult<ApiResponse>> GerarNovoUsuario(string id)
+        [HttpGet("gerarnovousuario")]
+        public async Task<ActionResult<ApiResponse>> GerarNovoUsuario()
         {   
-            int numUsuarios;
-            bool ehInteiro = int.TryParse(id, out numUsuarios);
-
-            if (!ehInteiro)
-            {
-                numUsuarios = 1;   
-            }
-            else if (numUsuarios > 2)
-            {
-                return BadRequest("Máximo de 2 usuários por vez.");
-            }
-
-
-            var response = await _apiService.ObterRespostaApiAsync(numUsuarios);
+            var response = await _apiService.ObterRespostaApiAsync();
 
             if (response == null)
             {
@@ -81,24 +63,27 @@ namespace caserandomuser.Controller
                 return NotFound("Nenhum usuário foi gerado.");
             }
 
-            return Ok(response.Results);
+            if (!response.Results.Any())
+            {
+                return NotFound("Lista usuários vazia.");
+            }
+
+            return Ok(response.Results[0]);
         }
 
 
         [HttpPost("cadastrarusuario")]
-        public async Task<ActionResult> CadastrarUsuarioNoBancoDeDados(List<CadastrosEntity> listaUsuarios)
+        public async Task<ActionResult> CadastrarUsuarioNoBancoDeDados([FromBody]CadastrosEntity usuarioCadastrar)
         {
-            if (!listaUsuarios.Any())
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Lista vazia.");
+                return BadRequest("Usuário inválido.");
             }
 
-            else
-            {
-                await _context.Cadastros.AddRangeAsync(listaUsuarios);
-                await _context.SaveChangesAsync();
-            }
+            _context.Cadastros.Add(usuarioCadastrar);
+            await _context.SaveChangesAsync();
 
+            Console.WriteLine($"Usuário Cadastrado: ID: {usuarioCadastrar.IdInt}, Nome:{usuarioCadastrar.Name}.");
             return Ok();
         }
 
@@ -135,16 +120,26 @@ namespace caserandomuser.Controller
         }
 
 
-        [HttpPut("editarusuario")]
-        public async Task<ActionResult> EditarUsuario(CadastrosEntity usuario)
+        [HttpPatch("editarusuario")]
+        public async Task<ActionResult> EditarUsuario([FromBody]CadastrosEntity usuario)
         {
+
+            Console.WriteLine(JsonConvert.SerializeObject(usuario));
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest("Usuário inválido.");
             }
-
-            _context.Update(usuario);
-            await _context.SaveChangesAsync();
+            
+            try 
+            {
+                _context.Cadastros.Update(usuario);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                return StatusCode(500, $"Erro ao atualizar o usuário: {dbEx.Message}");
+            }
 
             return Ok("Usuário atualizado.");
         }

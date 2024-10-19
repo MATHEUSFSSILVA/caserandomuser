@@ -12,7 +12,7 @@ using caserandomuser.Context;
 namespace caserandomuser.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241019000719_CriandoBanco")]
+    [Migration("20241019170624_CriandoBanco")]
     partial class CriandoBanco
     {
         /// <inheritdoc />
