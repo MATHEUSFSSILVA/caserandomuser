@@ -27,52 +27,62 @@ namespace caserandomuser.Context
             modelBuilder.Entity<CadastrosEntity>()
                 .HasOne(l => l.Name)
                 .WithOne()
-                .HasForeignKey<CadastrosEntity>(c => c.NameEntityId);
+                .HasForeignKey<CadastrosEntity>(c => c.NameEntityId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<CadastrosEntity>()
                 .HasOne(l => l.Location)
                 .WithOne()
-                .HasForeignKey<CadastrosEntity>(c => c.LocationEntityId);
+                .HasForeignKey<CadastrosEntity>(c => c.LocationEntityId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<CadastrosEntity>()
                 .HasOne(l => l.Login)
                 .WithOne()
-                .HasForeignKey<CadastrosEntity>(c => c.LoginEntityId);
+                .HasForeignKey<CadastrosEntity>(c => c.LoginEntityId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<CadastrosEntity>()
                 .HasOne(l => l.Dob)
                 .WithOne()
-                .HasForeignKey<CadastrosEntity>(c => c.DobEntityId);
+                .HasForeignKey<CadastrosEntity>(c => c.DobEntityId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<CadastrosEntity>()
                 .HasOne(l => l.Registered)
                 .WithOne()
-                .HasForeignKey<CadastrosEntity>(c => c.RegisteredEntityId);
+                .HasForeignKey<CadastrosEntity>(c => c.RegisteredEntityId)
+                .OnDelete(DeleteBehavior.Cascade);
             
             modelBuilder.Entity<CadastrosEntity>()
                 .HasOne(l => l.Id)
                 .WithOne()
-                .HasForeignKey<CadastrosEntity>(c => c.IdEntityId);
+                .HasForeignKey<CadastrosEntity>(c => c.IdEntityId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<CadastrosEntity>()
                 .HasOne(l => l.Picture)
                 .WithOne()
-                .HasForeignKey<CadastrosEntity>(c => c.PictureEntityId);
+                .HasForeignKey<CadastrosEntity>(c => c.PictureEntityId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<LocationEntity>()
                 .HasOne(l => l.Street)
                 .WithOne()
-                .HasForeignKey<LocationEntity>(c => c.StreetEntityId);
+                .HasForeignKey<LocationEntity>(c => c.StreetEntityId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<LocationEntity>()
                 .HasOne(l => l.Coordinates)
                 .WithOne()
-                .HasForeignKey<LocationEntity>(c => c.CoordinatesEntityId);
+                .HasForeignKey<LocationEntity>(c => c.CoordinatesEntityId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<LocationEntity>()
                 .HasOne(l => l.Timezone)
                 .WithOne()
-                .HasForeignKey<LocationEntity>(c => c.TimezoneEntityId);
+                .HasForeignKey<LocationEntity>(c => c.TimezoneEntityId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

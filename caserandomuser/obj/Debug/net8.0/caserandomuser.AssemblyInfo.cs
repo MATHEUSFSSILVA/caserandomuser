@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("caserandomuser")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0a673d658992392ae7aa63d361cbbfc97df073b6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3528c2c1a5a76e8fb2e4fd5fb45067346db4cf33")]
 [assembly: System.Reflection.AssemblyProductAttribute("caserandomuser")]
 [assembly: System.Reflection.AssemblyTitleAttribute("caserandomuser")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

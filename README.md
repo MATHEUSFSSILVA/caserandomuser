@@ -1,3 +1,5 @@
+ 
+
 ApiResponse
 Composição de classes - Relação "Tem Um"
  - Todas as classes e montado a estrutura listada dentro do Json em EstruturaApiResponse
@@ -10,3 +12,5 @@ Composição de classes - Relação "Tem Um"
   dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 9.0.0-rc.1
   dotnet add package Newtonsoft.Json
 
+Refazer - Fk de Banco de dados.
+Refazer - .Include, listagem de usuários.

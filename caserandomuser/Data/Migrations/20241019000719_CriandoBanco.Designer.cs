@@ -12,8 +12,8 @@ using caserandomuser.Context;
 namespace caserandomuser.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241018014318_CriacaoBancoDados")]
-    partial class CriacaoBancoDados
+    [Migration("20241019000719_CriandoBanco")]
+    partial class CriandoBanco
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
