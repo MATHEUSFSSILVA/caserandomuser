@@ -20,7 +20,6 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Configurando o pipeline de requisições HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -28,11 +27,20 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
 
-// Definindo o mapeamento de rotas
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseStaticFiles();
 
-// Iniciando o aplicativo
+app.UseAuthentication(); // Se você estiver usando autenticação
+app.UseAuthorization();
+// Mapeamento de controladores
+app.MapControllers();
+
+// Mapeia a rota principal para o index.html
+app.MapGet("/", async context =>
+{
+    context.Response.ContentType = "text/html";
+    await context.Response.SendFileAsync("wwwroot/index.html");
+});
+
 app.Run();

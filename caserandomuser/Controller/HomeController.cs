@@ -1,5 +1,6 @@
 
 using System.Globalization;
+using System.Text;
 using caserandomuser.Context;
 using caserandomuser.Entities;
 using caserandomuser.Models;
@@ -11,7 +12,7 @@ using Npgsql;
 namespace caserandomuser.Controller
 {   
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class HomeController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -24,10 +25,10 @@ namespace caserandomuser.Controller
         }
 
 
-        [HttpGet]
+        [HttpGet("Index")]
         public async Task<IEnumerable<CadastrosEntity>> ListarUsuariosCadastrados()
         {
-           return await _context.Cadastros
+           var usuarios = await _context.Cadastros
                 .Include(c => c.Name)
                 .Include(c => c.Location)
                     .ThenInclude(c => c.Street)
@@ -41,6 +42,14 @@ namespace caserandomuser.Controller
                 .Include(c => c.Id)
                 .Include(c => c.Picture)
                 .ToListAsync();
+
+            Console.WriteLine("Usuários Cadastrados:");
+            foreach (var usuario in usuarios)
+            {
+                Console.WriteLine($"ID: {usuario.IdInt}, Nome: {usuario.Name.First} {usuario.Name.Last}, Localização: {usuario.Location.City}");
+            }
+
+            return usuarios;
         }
 
 
@@ -141,7 +150,7 @@ namespace caserandomuser.Controller
         }
 
 
-        [HttpDelete("deletarusuario")]
+        [HttpDelete("deletarusuario/{id}")]
         public async Task<ActionResult> DeletarUsuario(int id)
         {
             if (id <= 0)

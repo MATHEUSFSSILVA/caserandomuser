@@ -1,0 +1,98 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+.search-section {
+    display: flex;
+    width: auto;
+    max-width: 400px; /* Limita a largura da seção de busca */
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    flex: 1; /* Permite que o input preencha o espaço disponível */
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+#resultadoPesquisa {
+    width: auto; /* Ajusta a largura ao conteúdo */
+    max-width: 100%; /* Garante que não exceda a largura do container */
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #ffffff;
+}
+
+#resultadoPesquisa h2 {
+    color: #007bff;
+    font-weight: bold;
+}
+
+#resultadoPesquisa p {
+    margin: 5px 0;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.separator {
+    border: none;
+    border-top: 3px solid black;
+    margin: 20px 0;
+}
+
+/* Adicionando media query para responsividade */
+@media (max-width: 600px) {
+    .search-section {
+        flex-direction: column; /* Empilha os elementos na vertical em telas menores */
+    }
+
+    input[type="text"] {
+        margin-right: 0; /* Remove a margem direita em telas pequenas */
+        margin-bottom: 10px; /* Adiciona espaço abaixo do input */
+    }
+}

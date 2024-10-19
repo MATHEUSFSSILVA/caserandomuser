@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Usuários</title>
+    <!-- Incluir Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Usuários no Banco de Dados</h1>
+            <a class="btn btn-success" href="#">Gerar novo usuário</a>
+        </div>
+
+        <table class="table table-hover" id="tabela-usuarios">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Gênero</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Cidade</th>
+                    <th scope="col">Usuário</th>
+                    <th scope="col">Idade</th>
+                    <th scope="col">Ações</th> <!-- Coluna para ações -->
+                </tr>
+            </thead>
+            <tbody id="usuarios-tbody">
+                <!-- Aqui os dados serão inseridos dinamicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Função para buscar os dados da API e renderizar na tabela
+        async function carregarUsuarios() {
+            try {
+                const response = await fetch('/Home/Index'); // Ajustar a URL da API conforme o seu endpoint
+                const dados = await response.json();
+
+                console.log(dados); // Log para verificar a estrutura do JSON
+
+                if (dados && dados.length > 0) {
+                    const tbody = document.getElementById('usuarios-tbody');
+                    tbody.innerHTML = ''; // Limpar o conteúdo da tabela
+
+                    dados.forEach(usuario => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${usuario.idInt}</td>
+                            <td>${usuario.gender}</td>
+                            <td>${usuario.name.first}</td>
+                            <td>${usuario.location.city}</td>
+                            <td>${usuario.login.username}</td>
+                            <td>${usuario.dob.age}</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" onclick="editarUsuario(${usuario.idInt})">Editar</button>
+                                <button class="btn btn-danger btn-sm" onclick="excluirUsuario(${usuario.idInt})">Excluir</button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    document.getElementById('usuarios-tbody').innerHTML = `
+                        <tr>
+                            <td colspan="7" class="text-center">Nenhum usuário cadastrado.</td>
+                        </tr>
+                    `;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar os usuários:', error);
+            }
+        }
+
+        // Função para editar o usuário
+        function editarUsuario(id) {
+            // Aqui você pode implementar a lógica para editar o usuário
+            console.log(`Editar usuário com ID: ${id}`);
+            // Redirecionar para uma página de edição ou abrir um modal, por exemplo
+        }
+
+        // Função para excluir o usuário
+        async function excluirUsuario(id) {
+            const confirmacao = confirm("Tem certeza que deseja excluir este usuário?");
+            if (confirmacao) {
+                try {
+                    const response = await fetch(`/Home/deletarusuario/${id}`, { method: 'DELETE' });
+                    if (response.ok) {
+                        alert("Usuário excluído com sucesso!");
+                        carregarUsuarios(); // Recarregar a lista de usuários
+                    } else {
+                        const mensagem = await response.text();
+                        alert(`Erro ao excluir o usuário: ${mensagem}`);
+                    }
+                } catch (error) {
+                    console.error('Erro ao excluir o usuário:', error);
+                }
+            }
+        }
+
+        // Chamar a função quando a página carregar
+        window.onload = carregarUsuarios;
+    </script>
+</body>
+</html>

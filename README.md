@@ -11,6 +11,8 @@ Composição de classes - Relação "Tem Um"
   dotnet add package Microsoft.EntityFrameworkCore.Tools --version 9.0.0-rc.1.24451.1
   dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 9.0.0-rc.1
   dotnet add package Newtonsoft.Json
+  dotnet add package Microsoft.AspNetCore.Mvc.RazorPages
+
 
 Refazer - Fk de Banco de dados.
 Refazer - .Include, listagem de usuários.
