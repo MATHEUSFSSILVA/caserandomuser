@@ -30,7 +30,7 @@ dotnet add package Newtonsoft.Json
 ---
 
 3. Estrutura do Projeto
- 
+ ```bash
   Estrutura de pastas:
   PROJETOCASERANDOMUSER
   │
@@ -48,6 +48,7 @@ dotnet add package Newtonsoft.Json
   │   ├── /Program.cs                     # Ponto de entrada da aplicação.
   ├── /projetorandomuser.sln              # Solução do Visual Studio.
   └── /README.md                          # Documentação do projeto.
+```
 
 ---
 
@@ -62,7 +63,7 @@ dotnet add package Newtonsoft.Json
 ---
 
 5. Persistência de Dados e estrutura das tabelas
-
+ ```bash
   Cadastros - Tabela Pai      # Contém a Primary Key - IdInd
   │
   ├── Names                   # Ligação - Cadastros.IdInt x CaNameEntityId
@@ -80,6 +81,7 @@ dotnet add package Newtonsoft.Json
     - #HasOne(): Configurado ligação entre tabelas conforme modelo acima. 
     - #WithOne(): Configurado a ligação 1 para 1 através de número único - Primary Key de cada tabela. 
     - #OnDelete(): Configurado delete OnCascade para todas as foreign keys.
+```
 
 ---
 
