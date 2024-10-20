@@ -29,7 +29,7 @@ dotnet add package Newtonsoft.Json
 
 ---
 
-3. Estrutura do Projeto
+**3. Estrutura do Projeto**
  ```bash
   Estrutura de pastas:
   PROJETOCASERANDOMUSER
@@ -52,7 +52,7 @@ dotnet add package Newtonsoft.Json
 
 ---
 
-4. Conexão com a API RandomUser
+**4. Conexão com a API RandomUser**
   
   Configuração da API: 
   Utilizado a biblioteca HttpClient que permite enviar e receber solicitações HTTP. 
@@ -62,7 +62,7 @@ dotnet add package Newtonsoft.Json
 
 ---
 
-5. Persistência de Dados e estrutura das tabelas
+**5. Persistência de Dados e estrutura das tabelas**
  ```bash
   Cadastros - Tabela Pai      # Contém a Primary Key - IdInd
   │
@@ -85,23 +85,25 @@ dotnet add package Newtonsoft.Json
 
 ---
 
-6. Home Controller
+**6. Home Controller**
   
-  Operações Crud:
+  - Operações Crud:
   Create: CadastrarUsuarioNoBancoDeDados() - Método HttpPost, método recebe do corpo da requisição([FromBody]) como parâmetro um modelo correspondente a classe entidade e suas subclasses.
 
-  Read: ListarUsuariosCadastrados() - Método HttpGet, método retorna uma lista de usuarios correspondente a classe entidade e suas subclasses.
+  - Read: ListarUsuariosCadastrados() - Método HttpGet, método retorna uma lista de usuarios correspondente a classe entidade e suas subclasses.
   
-  Update: EditarUsuario() - Método HttpPatch escolhido pois a edição será disponibilizada de forma parcial. Assim como no método de criação, recebe do corpo da requisição([FromBody]) como parametro um modelo correspondente a classe entidade e suas subclasses permitindo a edição do usuário.
+  - Update: EditarUsuario() - Método HttpPatch escolhido pois a edição será disponibilizada de forma parcial. Assim como no método de criação, recebe do corpo da requisição([FromBody]) como parametro um modelo correspondente a classe entidade e suas subclasses permitindo a edição do usuário.
 
-  Delete: DeletarUsuario() - Método HttpDelete, recebe um ID como parâmetro na chamada do método, realiza validação de ID nulo e de retorno de pesquisa nulo, existindo o cadastro realiza a remoção dos dados.
+  - Delete: DeletarUsuario() - Método HttpDelete, recebe um ID como parâmetro na chamada do método, realiza validação de ID nulo e de retorno de pesquisa nulo, existindo o cadastro realiza a remoção dos dados.
 
-  Método que gera novo usuário - GerarNovoUsuario() - Método HttpGet, requisita via ApiService e devolve como retorno objeto correspondente a classe EstruturaApiResponse.cs
-  Método de pesquisa por ID - PesquisarUsuarioPorId() - Método HttpGet, realiza a pesquisa em banco de dados trazendo os dados da tabela pai e tabelas filhas do banco de dados.
+
+  - Método que gera novo usuário - GerarNovoUsuario() - Método HttpGet, requisita via ApiService e devolve como retorno objeto correspondente a classe EstruturaApiResponse.cs
+
+  - Método de pesquisa por ID - PesquisarUsuarioPorId() - Método HttpGet, realiza a pesquisa em banco de dados trazendo os dados da tabela pai e tabelas filhas do banco de dados.
 
 ---
 
-7. Problemas Conhecidos e Soluções
+**7. Problemas Conhecidos e Soluções**
   
   Método HttpDelete - DeletarUsuario()
   Ao realizar a operação de _context.Cadastros.Remove(usuario) não era realizada a remoção em cascata conforme configurado no Contexto.
@@ -109,20 +111,20 @@ dotnet add package Newtonsoft.Json
 
 ---
 
-8. Conhecimento adquirido na criação do projeto
+**8. Conhecimento adquirido na criação do projeto**
   
-  Durante a construção do projeto, aprendi alguns pontos importantes, como:
+  - Durante a construção do projeto, aprendi alguns pontos importantes, como:
     - Embora já soubesse o conceito de foreign key, nunca havia utilizado, e aprendi a estabelecer ligações no contexto.
     - Adquiri conhecimento do método .Include() e .ThenInclude() da biblioteca Entity Framework Core, que inclui na requisição as tabelas filhas que contém ligação.
     - Conhecido diferença entre HttpPut e HttpPatch.
-    - - Aprendi sobre os códigos de status HTTP:
+      - Aprendi sobre os códigos de status HTTP:
       - **2xx**: Resposta de sucesso.
       - **4xx**: Erro do cliente.
       - **5xx**: Erro do servidor.
 
 ---
 
-9. Referências
+**9. Referências**
 
   **Bibliotecas instaladas:**
   - [NuGet](https://www.nuget.org/)
