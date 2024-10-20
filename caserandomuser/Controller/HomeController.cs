@@ -46,7 +46,7 @@ namespace caserandomuser.Controller
 
 
         [HttpGet("gerarnovousuario")]
-        public async Task<ActionResult<ApiResponse>> GerarNovoUsuario()
+        public async Task<ActionResult> GerarNovoUsuario()
         {   
             try
             {
