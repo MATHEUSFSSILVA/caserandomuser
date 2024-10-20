@@ -8,14 +8,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configuração do DbContext com PostgreSQL
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Adicionando o HttpClient para o serviço de API
+
 builder.Services.AddHttpClient<ApiService>();
 
-// Adicionando suporte a controladores
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
@@ -31,12 +31,12 @@ app.UseRouting();
 
 app.UseStaticFiles();
 
-app.UseAuthentication(); // Se você estiver usando autenticação
+app.UseAuthentication(); 
 app.UseAuthorization();
-// Mapeamento de controladores
+
 app.MapControllers();
 
-// Mapeia a rota principal para o index.html
+
 app.MapGet("/", async context =>
 {
     context.Response.ContentType = "text/html";

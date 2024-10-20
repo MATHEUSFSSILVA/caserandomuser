@@ -6,6 +6,7 @@ using caserandomuser.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace caserandomuser.Controller
 {   
     [ApiController]
@@ -25,7 +26,7 @@ namespace caserandomuser.Controller
         [HttpGet("Index")]
         public async Task<IEnumerable<CadastrosEntity>> ListarUsuariosCadastrados()
         {
-           var usuarios = await _context.Cadastros
+            var usuarios = await _context.Cadastros
                 .Include(c => c.Name)
                 .Include(c => c.Location)
                     .ThenInclude(c => c.Street)
@@ -40,31 +41,39 @@ namespace caserandomuser.Controller
                 .Include(c => c.Picture)
                 .ToListAsync();
 
-            return usuarios;
+            return usuarios;          
         }
 
 
         [HttpGet("gerarnovousuario")]
         public async Task<ActionResult<ApiResponse>> GerarNovoUsuario()
         {   
-            var response = await _apiService.ObterRespostaApiAsync();
-
-            if (response == null)
+            try
             {
-                return BadRequest($"A resposta da Api foi nula.");
-            }
-            
-            if (response.Results == null)
-            {
-                return NotFound("Nenhum usuário foi gerado.");
-            }
+                var response = await _apiService.ObterRespostaApiAsync();            
 
-            if (!response.Results.Any())
-            {
-                return NotFound("Lista usuários vazia.");
-            }
+                if (response == null)
+                {
+                    return BadRequest($"A resposta da Api foi nula.");
+                }
+                
+                if (response.Results == null)
+                {
+                    return NotFound("Nenhum usuário foi gerado.");
+                }
 
-            return Ok(response.Results[0]);
+                if (!response.Results.Any())
+                {
+                    return NotFound("Lista usuários vazia.");
+                }
+
+                return Ok(response.Results[0]);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro ao gerar usurário: {ex.Message}");
+            }
         }
 
 
@@ -76,9 +85,17 @@ namespace caserandomuser.Controller
                 return BadRequest("Usuário inválido.");
             }
 
-            _context.Cadastros.Add(usuarioCadastrar);
-            await _context.SaveChangesAsync();
 
+            try
+            {
+                _context.Cadastros.Add(usuarioCadastrar);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro inesperado: {ex.Message}");
+            }
+            
             Console.WriteLine($"Usuário Cadastrado: ID: {usuarioCadastrar.IdInt}, Nome:{usuarioCadastrar.Name}.");
             return Ok();
         }
@@ -92,27 +109,34 @@ namespace caserandomuser.Controller
                 return BadRequest("Id Inválido.");
             }
 
-            var usuario = await _context.Cadastros
-                .Include(c => c.Name)
-                .Include(c => c.Location)
-                    .ThenInclude(c => c.Street)
-                .Include(c => c.Location)
-                    .ThenInclude(c => c.Coordinates)
-                .Include(c => c.Location)
-                    .ThenInclude(c => c.Timezone)
-                .Include(c => c.Login)
-                .Include(c => c.Dob)
-                .Include(c => c.Registered)
-                .Include(c => c.Id)
-                .Include(c => c.Picture)
-                .FirstOrDefaultAsync(c => c.IdInt == id);
-            
-            if (usuario == null)
+            try
             {
-                return NotFound("Usuário não encontrado.");
-            }
+                var usuario = await _context.Cadastros
+                    .Include(c => c.Name)
+                    .Include(c => c.Location)
+                        .ThenInclude(c => c.Street)
+                    .Include(c => c.Location)
+                        .ThenInclude(c => c.Coordinates)
+                    .Include(c => c.Location)
+                        .ThenInclude(c => c.Timezone)
+                    .Include(c => c.Login)
+                    .Include(c => c.Dob)
+                    .Include(c => c.Registered)
+                    .Include(c => c.Id)
+                    .Include(c => c.Picture)
+                    .FirstOrDefaultAsync(c => c.IdInt == id);
 
-            return Ok(usuario);
+                    if (usuario == null)
+                    {
+                        return NotFound("Usuário não encontrado.");
+                    }
+                    
+                    return Ok(usuario);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro inesperado: {ex.Message}");
+            }           
         }
 
 
@@ -129,9 +153,9 @@ namespace caserandomuser.Controller
                 _context.Cadastros.Update(usuario);
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException dbEx)
+            catch (Exception ex)
             {
-                return StatusCode(500, $"Erro ao atualizar o usuário: {dbEx.Message}");
+                return StatusCode(500, $"Erro inesperado: {ex.Message}");
             }
 
             return Ok("Usuário atualizado.");
@@ -145,39 +169,46 @@ namespace caserandomuser.Controller
             {
                 return BadRequest("Id inválido.");
             }
-
-            var usuarioCadastros = await _context.Cadastros.FirstOrDefaultAsync(c => c.IdInt == id);
-            var usuarioCoordinates = await _context.Coordinateses.FirstOrDefaultAsync(c => c.IdInt == id);
-            var usuarioDobs = await _context.Dobs.FirstOrDefaultAsync(c => c.IdInt == id);
-            var usuarioIds = await _context.Ids.FirstOrDefaultAsync(c => c.IdInt == id);
-            var usuarioLocations = await _context.Locations.FirstOrDefaultAsync(c => c.IdInt == id);
-            var usuarioLogins = await _context.Logins.FirstOrDefaultAsync(c => c.IdInt == id);
-            var usuarioNames = await _context.Names.FirstOrDefaultAsync(c => c.IdInt == id);
-            var usuarioPictures = await _context.Pictures.FirstOrDefaultAsync(c => c.IdInt == id);
-            var usuarioRegistereds = await _context.Registereds.FirstOrDefaultAsync(c => c.IdInt == id);
-            var usuarioStreets = await _context.Streets.FirstOrDefaultAsync(c => c.IdInt == id);
-            var usuarioTimezones = await _context.Timezones.FirstOrDefaultAsync(c => c.IdInt == id);
-
-            if (usuarioCadastros == null)
-            {
-                return NotFound("Usuário não encontrado.");
-            }
-
-            _context.Cadastros.Remove(usuarioCadastros);
-            _context.Coordinateses.Remove(usuarioCoordinates);
-            _context.Dobs.Remove(usuarioDobs);
-            _context.Ids.Remove(usuarioIds);
-            _context.Locations.Remove(usuarioLocations);
-            _context.Logins.Remove(usuarioLogins);
-            _context.Names.Remove(usuarioNames);
-            _context.Pictures.Remove(usuarioPictures);
-            _context.Registereds.Remove(usuarioRegistereds);
-            _context.Streets.Remove(usuarioStreets);
-            _context.Timezones.Remove(usuarioTimezones);
             
-            await _context.SaveChangesAsync();
+            try
+            {
+                var usuarioCadastros = await _context.Cadastros.FirstOrDefaultAsync(c => c.IdInt == id);
+                var usuarioCoordinates = await _context.Coordinateses.FirstOrDefaultAsync(c => c.IdInt == id);
+                var usuarioDobs = await _context.Dobs.FirstOrDefaultAsync(c => c.IdInt == id);
+                var usuarioIds = await _context.Ids.FirstOrDefaultAsync(c => c.IdInt == id);
+                var usuarioLocations = await _context.Locations.FirstOrDefaultAsync(c => c.IdInt == id);
+                var usuarioLogins = await _context.Logins.FirstOrDefaultAsync(c => c.IdInt == id);
+                var usuarioNames = await _context.Names.FirstOrDefaultAsync(c => c.IdInt == id);
+                var usuarioPictures = await _context.Pictures.FirstOrDefaultAsync(c => c.IdInt == id);
+                var usuarioRegistereds = await _context.Registereds.FirstOrDefaultAsync(c => c.IdInt == id);
+                var usuarioStreets = await _context.Streets.FirstOrDefaultAsync(c => c.IdInt == id);
+                var usuarioTimezones = await _context.Timezones.FirstOrDefaultAsync(c => c.IdInt == id);
 
-            return Ok("Usuário deletado.");
+                if (usuarioCadastros == null)
+                {
+                    return NotFound("Usuário não encontrado.");
+                }
+
+                _context.Cadastros.Remove(usuarioCadastros);
+                _context.Coordinateses.Remove(usuarioCoordinates);
+                _context.Dobs.Remove(usuarioDobs);
+                _context.Ids.Remove(usuarioIds);
+                _context.Locations.Remove(usuarioLocations);
+                _context.Logins.Remove(usuarioLogins);
+                _context.Names.Remove(usuarioNames);
+                _context.Pictures.Remove(usuarioPictures);
+                _context.Registereds.Remove(usuarioRegistereds);
+                _context.Streets.Remove(usuarioStreets);
+                _context.Timezones.Remove(usuarioTimezones);
+                
+                await _context.SaveChangesAsync();
+
+                return Ok("Usuário deletado.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro inesperado: {ex.Message}");
+            }
         }
     }
 }
