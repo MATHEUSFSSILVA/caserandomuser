@@ -1,14 +1,10 @@
 
-using System.Globalization;
-using System.Text;
 using caserandomuser.Context;
 using caserandomuser.Entities;
 using caserandomuser.Models;
 using caserandomuser.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Npgsql;
 
 namespace caserandomuser.Controller
 {   
@@ -122,10 +118,7 @@ namespace caserandomuser.Controller
 
         [HttpPatch("editarusuario")]
         public async Task<ActionResult> EditarUsuario([FromBody]CadastrosEntity usuario)
-        {
-
-            Console.WriteLine(JsonConvert.SerializeObject(usuario));
-            
+        {            
             if (!ModelState.IsValid)
             {
                 return BadRequest("Usuário inválido.");
