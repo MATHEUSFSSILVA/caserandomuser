@@ -25,6 +25,7 @@ dotnet add package Microsoft.EntityFrameworkCore.Design --version 9.0.0-rc.1.244
 dotnet add package Microsoft.EntityFrameworkCore.Tools --version 9.0.0-rc.1.24451.1
 dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 9.0.0-rc.1
 dotnet add package Newtonsoft.Json
+```
 
 ---
 
@@ -47,7 +48,8 @@ dotnet add package Newtonsoft.Json
   │   ├── /Program.cs                     # Ponto de entrada da aplicação.
   ├── /projetorandomuser.sln              # Solução do Visual Studio.
   └── /README.md                          # Documentação do projeto.
-  
+
+---
 
 4. Conexão com a API RandomUser
   
@@ -57,6 +59,7 @@ dotnet add package Newtonsoft.Json
 
   url utilizada = https://randomuser.me/api/?results=1
 
+---
 
 5. Persistência de Dados e estrutura das tabelas
 
@@ -78,6 +81,7 @@ dotnet add package Newtonsoft.Json
     - #WithOne(): Configurado a ligação 1 para 1 através de número único - Primary Key de cada tabela. 
     - #OnDelete(): Configurado delete OnCascade para todas as foreign keys.
 
+---
 
 6. Home Controller
   
@@ -93,6 +97,7 @@ dotnet add package Newtonsoft.Json
   Método que gera novo usuário - GerarNovoUsuario() - Método HttpGet, requisita via ApiService e devolve como retorno objeto correspondente a classe EstruturaApiResponse.cs
   Método de pesquisa por ID - PesquisarUsuarioPorId() - Método HttpGet, realiza a pesquisa em banco de dados trazendo os dados da tabela pai e tabelas filhas do banco de dados.
 
+---
 
 7. Problemas Conhecidos e Soluções
   
@@ -100,6 +105,7 @@ dotnet add package Newtonsoft.Json
   Ao realizar a operação de _context.Cadastros.Remove(usuario) não era realizada a remoção em cascata conforme configurado no Contexto.
   Realizado o Delete em todas as tabelas dentro do meto para o ID correspondênte.
 
+---
 
 8. Conhecimento adquirido na criação do projeto
   
@@ -112,6 +118,7 @@ dotnet add package Newtonsoft.Json
       - **4xx**: Erro do cliente.
       - **5xx**: Erro do servidor.
 
+---
 
 9. Referências
 
