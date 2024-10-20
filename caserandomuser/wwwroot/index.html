@@ -10,22 +10,27 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div class="container mt-4">
+    <div class="container-fluid mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>Usuários no Banco de Dados</h1>
             <button class="btn btn-success" data-toggle="modal" data-target="#modalGerarUsuario">Gerar novo usuário</button>
         </div>
-
-        <table class="table table-hover" id="tabela-usuarios">
+        
+        <table class="table table-hover w-100 fs-5" id="tabela-usuarios">
             <thead class="thead-light">
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Gênero</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Cidade</th>
-                    <th scope="col">Usuário</th>
-                    <th scope="col">Idade</th>
-                    <th scope="col">Ações</th>
+                    <th scope="col" class="text-center">Id Bd</th>
+                    <th scope="col" class="text-center">Gênero</th>
+                    <th scope="col" class="text-center">Primeiro Nome</th>
+                    <th scope="col" class="text-center">Idade</th>
+                    <th scope="col" class="text-center">Rua</th>
+                    <th scope="col" class="text-center">Cidade</th>
+                    <th scope="col" class="text-center">País</th>
+                    <th scope="col" class="text-center">Username</th>
+                    <th scope="col" class="text-center">Email</h>
+                    <th scope="col" class="text-center">Phone</h>
+                    <th scope="col" class="text-center">Cell</h>
+                    <th scope="col" class="text-center">Ações</th>
                 </tr>
             </thead>
             <tbody id="usuarios-tbody">
@@ -49,6 +54,7 @@
                     </ul>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" id="btnAtualizar">Atualizar</button>
                     <button type="button" class="btn btn-primary" id="btnCadastrar">Cadastrar</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                 </div>
@@ -62,22 +68,52 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalEditarUsuarioLabel">Editar Usuário</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <form id="formEditarUsuario">
                         <input type="hidden" id="editarUsuarioId" />
                         <div class="mb-3">
-                            <label for="editarUsuarioNome" class="form-label">Nome</label>
-                            <input type="text" class="form-control" id="editarUsuarioNome" required />
+                            <label for="editarUsuarioNome" class="form-label">Gênero</label>
+                            <input type="text" class="form-control" id="editarUsuarioGender" required />
                         </div>
                         <div class="mb-3">
-                            <label for="editarUsuarioCidade" class="form-label">Cidade</label>
-                            <input type="text" class="form-control" id="editarUsuarioCidade" required />
+                            <label for="editarUsuarioCidade" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="editarUsuarioNameFirst" required />
                         </div>
                         <div class="mb-3">
                             <label for="editarUsuarioIdade" class="form-label">Idade</label>
-                            <input type="number" class="form-control" id="editarUsuarioIdade" required />
+                            <input type="text" class="form-control" id="editarUsuarioDobAge" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editarUsuarioIdade" class="form-label">Rua</label>
+                            <input type="text" class="form-control" id="editarUsuarioStreetName" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editarUsuarioIdade" class="form-label">Cidade</label>
+                            <input type="text" class="form-control" id="editarUsuarioCity" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editarUsuarioIdade" class="form-label">País</label>
+                            <input type="text" class="form-control" id="editarUsuarioCountry" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editarUsuarioIdade" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="editarUsuarioUsername" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editarUsuarioIdade" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="editarUsuarioEmail" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editarUsuarioIdade" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="editarUsuarioPhone" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editarUsuarioIdade" class="form-label">Cell</label>
+                            <input type="text" class="form-control" id="editarUsuarioCell" required />
                         </div>
                         <button type="button" class="btn btn-primary" id="btnSalvarEdicao" onclick="salvarEdicao()">Salvar</button>
                     </form>
@@ -108,13 +144,18 @@
                     dados.forEach(usuario => {
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
-                            <td>${usuario.idInt}</td>
-                            <td>${usuario.gender}</td>
-                            <td>${usuario.name.first}</td>
-                            <td>${usuario.location.city}</td>
-                            <td>${usuario.login.username}</td>
-                            <td>${usuario.dob.age}</td>
-                            <td>
+                            <td class="text-center">${usuario.idInt}</td>
+                            <td class="text-center">${usuario.gender}</td>
+                            <td class="text-center">${usuario.name.first}</td>
+                            <td class="text-center">${usuario.dob.age}</td>
+                            <td class="text-center">${usuario.location.street.name}</td>
+                            <td class="text-center">${usuario.location.city}</td>
+                            <td class="text-center">${usuario.location.country}</td>
+                            <td class="text-center">${usuario.login.username}</td>
+                            <td class="text-center">${usuario.email}</td>
+                            <td class="text-center">${usuario.phone}</td>
+                            <td class="text-center">${usuario.cell}</td>
+                            <td class="text-center">
                                 <button class="btn btn-primary btn-sm" onclick="editarUsuario(${usuario.idInt})">Editar</button>
                                 <button class="btn btn-danger btn-sm" onclick="excluirUsuario(${usuario.idInt})">Excluir</button>
                             </td>
@@ -132,6 +173,7 @@
                 console.error('Erro ao carregar os usuários:', error);
             }
         }
+        
 
         // Função para gerar um novo usuário e exibir no modal
         async function gerarNovoUsuario() {
@@ -156,7 +198,7 @@
                     <li class="list-group-item"><strong>Telefone:</strong> ${usuarioGerado.phone}</li>
                     <li class="list-group-item"><strong>Celular:</strong> ${usuarioGerado.cell}</li>
                     <li class="list-group-item"><strong>Documento:</strong> ${usuarioGerado.id.name} ${usuarioGerado.id.value}</li>
-                    <li class="list-group-item">
+                    <li class="list-group-item text-center">
                         <img src=${usuarioGerado.picture.large} alt="Imagem do Usuário" class="img-thumbnail" style="max-width: 120px;">
                     </li>
                 `;
@@ -171,6 +213,18 @@
         // Ativar a função de gerar novo usuário ao abrir o modal
         $('#modalGerarUsuario').on('show.bs.modal', function () {
             gerarNovoUsuario();
+        });
+
+        $(document).ready(function() {
+            // Chamar carregarUsuarios quando a modal for exibida
+            $('#modalGerarUsuario').on('show.bs.modal', function() {
+                gerarNovoUsuario(); // Carregar usuários ao abrir a modal
+            });
+
+            // Adicionar evento de clique para o botão de atualizar
+            $('#btnAtualizar').on('click', function() {
+                gerarNovoUsuario(); // Atualizar usuários ao clicar no botão
+            });
         });
 
 
@@ -225,9 +279,16 @@
 
                 // Preenche o formulário de edição com os dados do usuário
                 document.getElementById('editarUsuarioId').value = usuarioGlobal.idInt; // Preencher o ID
-                document.getElementById('editarUsuarioNome').value = usuarioGlobal.name.first; // Preencher o nome
-                document.getElementById('editarUsuarioCidade').value = usuarioGlobal.location.city; // Preencher a cidade
-                document.getElementById('editarUsuarioIdade').value = usuarioGlobal.dob.age; // Preencher a idade
+                document.getElementById('editarUsuarioGender').value = usuarioGlobal.gender; // Preencher o Gênero
+                document.getElementById('editarUsuarioNameFirst').value = usuarioGlobal.name.first; // Preencher o nome
+                document.getElementById('editarUsuarioDobAge').value = usuarioGlobal.dob.age; // Preencher a idade
+                document.getElementById('editarUsuarioStreetName').value = usuarioGlobal.location.street.name; // Preencher a cidade
+                document.getElementById('editarUsuarioCity').value = usuarioGlobal.location.city;
+                document.getElementById('editarUsuarioCountry').value = usuarioGlobal.location.country;
+                document.getElementById('editarUsuarioUsername').value = usuarioGlobal.login.username;
+                document.getElementById('editarUsuarioEmail').value = usuarioGlobal.email;
+                document.getElementById('editarUsuarioPhone').value = usuarioGlobal.phone;
+                document.getElementById('editarUsuarioCell').value = usuarioGlobal.cell;
 
                 // Exibe a modal de edição
                 $('#modalEditarUsuario').modal('show');
@@ -237,18 +298,23 @@
             }
         }
 
-
         async function salvarEdicao() {
         console.log("salvarEdicao chamado"); // Para debugging
         if (!usuarioGlobal) {
             alert("Usuário não carregado.");
             return;
         }
-
             // Atualiza o objeto com os valores do formulário
-            usuarioGlobal.name.first = document.getElementById('editarUsuarioNome').value;
-            usuarioGlobal.location.city = document.getElementById('editarUsuarioCidade').value; 
-            usuarioGlobal.dob.age = document.getElementById('editarUsuarioIdade').value; 
+            usuarioGlobal.gender = document.getElementById('editarUsuarioGender').value;
+            usuarioGlobal.name.first = document.getElementById('editarUsuarioNameFirst').value;
+            usuarioGlobal.dob.age = document.getElementById('editarUsuarioDobAge').value;
+            usuarioGlobal.location.street.name = document.getElementById('editarUsuarioStreetName').value;
+            usuarioGlobal.location.city = document.getElementById('editarUsuarioCity').value; 
+            usuarioGlobal.location.country = document.getElementById('editarUsuarioCountry').value;
+            usuarioGlobal.login.username = document.getElementById('editarUsuarioUsername').value;
+            usuarioGlobal.email = document.getElementById('editarUsuarioEmail').value; 
+            usuarioGlobal.phone = document.getElementById('editarUsuarioPhone').value; 
+            usuarioGlobal.cell = document.getElementById('editarUsuarioCell').value; 
 
             try {
                 const response = await fetch(`/Home/editarusuario`, {
